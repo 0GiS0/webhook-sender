@@ -8,12 +8,12 @@ var webHooks = new WebHooks({
 
 var emitter = webHooks.getEmitter();
 
-emitter.on('*.success', function (shortname, statusCode, body) {
-    console.log('Success on trigger webHook ' + shortname + ' with status code', statusCode, 'and body', body)
+emitter.on('*.success', function (eventName, statusCode, body) {
+    console.log('Success on trigger webHook ' + eventName + ' with status code', statusCode, 'and body', body)
 });
 
-emitter.on('*.failure', function (shortname, statusCode, body) {
-    console.error('Error on trigger webHook ' + shortname + ' with status code', statusCode, 'and body', body)
+emitter.on('*.failure', function (eventName, statusCode, body) {
+    console.error('Error on trigger webHook ' + eventName + ' with status code', statusCode, 'and body', body)
 });
 
 
@@ -29,8 +29,8 @@ module.exports = {
 
         console.log(request.body);
 
-        webHooks.add(request.body.shortname, request.body.url).then(function () {
-            console.log(`${request.body.url} subscribed to ${request.body.shortname}`);
+        webHooks.add(request.body.eventName, request.body.url).then(function () {
+            console.log(`${request.body.url} subscribed to ${request.body.eventName}`);
             return response.status(200).send('ok');
         }).catch(function (err) {
             console.log(err);
@@ -41,8 +41,8 @@ module.exports = {
     unsubscribe(request, response) {
         console.log(request.body);
 
-        webHooks.remove(request.body.shortname, request.body.url).then(function () {
-            console.log(`${request.body.url} unsubscribed from ${request.body.shortname}`);
+        webHooks.remove(request.body.eventName, request.body.url).then(function () {
+            console.log(`${request.body.url} unsubscribed from ${request.body.eventName}`);
             return response.status(200).send('ok');
         }).catch(function (err) {
             console.log(err);
