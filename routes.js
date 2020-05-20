@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const Base = require('./controllers/BaseController');
+const Base = require('./controllers/WebHookController');
 
 const routes = Router();
 
