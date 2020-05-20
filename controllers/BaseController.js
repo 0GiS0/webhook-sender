@@ -21,13 +21,16 @@ module.exports = {
 
     async emitEvent(request, response) {
         console.log(request.body);
-        webHooks.trigger('shortname1', request.body);
+        webHooks.trigger('hello', request.body);
         return response.send('event sent');
     },
 
     subscribe(request, response) {
+
         console.log(request.body);
-        webHooks.add('shortname1', request.body.url).then(function () {
+
+        webHooks.add(request.body.shortname, request.body.url).then(function () {
+            console.log(`${request.body.url} subscribed to ${request.body.shortname}`);
             return response.status(200).send('ok');
         }).catch(function (err) {
             console.log(err);
@@ -37,7 +40,9 @@ module.exports = {
 
     unsubscribe(request, response) {
         console.log(request.body);
-        webHooks.remove('shortname1', request.body.url).then(function () {
+
+        webHooks.remove(request.body.shortname, request.body.url).then(function () {
+            console.log(`${request.body.url} unsubscribed from ${request.body.shortname}`);
             return response.status(200).send('ok');
         }).catch(function (err) {
             console.log(err);
